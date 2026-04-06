@@ -1,7 +1,7 @@
-# Edward AI
+# Clay AI
 Run:
 1. Install Ollama
 2. ollama run phi
-3. python -m edward.main
+3. python -m Clay.main
 
 I am working on automating all of this with VerifyDep and it starts up automatically. 
