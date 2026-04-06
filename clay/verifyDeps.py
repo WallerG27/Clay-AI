@@ -20,10 +20,10 @@ import sys
 from pathlib import Path
 
 # The requirements.txt file variable
-DOWNLOAD_FILE = Path("edward/requirements.txt")
+DOWNLOAD_FILE = Path(__file__).parent / "requirements.txt"
 
 # The SHA256 of the requirements.txt
-EXPECTED_HASH = "8cc9c69c53f40d19321339ffaf4142a5cf15db40fef01aceb44834854ffe14b4"
+EXPECTED_HASH = "c319c40c444ef8f54103a416c61faabf6ff016cc3ffd2850bc80770bfe8d4545"
 
 
 # Function to calculate the SHA256 hash of a file

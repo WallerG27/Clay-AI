@@ -1,29 +1,31 @@
 # Calls the appropriate plugin or LLM response based on the user's command
-# llm_bridge is used to call the LLM for long queries
-from clay.core.llm_bridge import ask_llm
-
 # weather is used to get, you'll never guess, the weather for a given location
-from clay.plugins.weather import get_weather
+from plugins.weather import get_weather
 
 # wikipedia is used to search Wikipedia for a given query
-from clay.plugins.wikipedia import search_wikipedia
+from plugins.wikipedia import search_wikipedia
 
 
-# Route the user's command to the appropriate plugin or LLM response
 def route_command(text):
+    """
+    Returns either:
+      - A string prefix to inject into the LLM prompt (weather/wikipedia data)
+      - None if no plugin matched (main.py will call ask_llm directly)
+      - A plain string response for short-circuit cases (e.g. too short)
+    """
     text_lower = text.lower()
 
-    # Check for weather-related queries
+    # Check for weather-related queries — inject weather data as context
     if "weather" in text_lower:
-        return get_weather()
+        return f"[Weather Data]: {get_weather()}"
 
-    # Check for Wikipedia-related queries
+    # Check for Wikipedia-related queries — inject article summary as context
     if any(x in text_lower for x in ["who is", "what is", "who was", "what are"]):
-        return search_wikipedia(text)
+        return f"[Wikipedia]: {search_wikipedia(text)}"
 
-    # Check for short queries (less than 3 words)
-    if len(text.split()) < 3:
-        return "Say something more interesting."
+    # Short query guard
+    if len(text.split()) < 1:
+        return "__DIRECT__: I have a one word minimum. Say something more interesting."
 
-    # Default to LLM response for long queries
-    return ask_llm(text)
+    # No plugin matched
+    return None
