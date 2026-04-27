@@ -43,7 +43,7 @@ def ensure_model():
         pass
 
     print("Pulling phi model...")
-    subprocess.run(["ollama", "pull", "phi"])
+    subprocess.run(["ollama", "pull", "llama3.2"])
 
 
 def ensure_ollama_running():
